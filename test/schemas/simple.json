@@ -1,0 +1,36 @@
+{
+  "type": "object",
+  "properties": {
+    "authors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "contacts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "format": "email"
+                }
+              },
+              "required": ["email"]
+            },
+            "minItems": 1
+          },
+          "active": {
+            "type": "boolean"
+          }
+        },
+        "required": ["name", "contacts", "active"]
+      },
+      "minItems": 2
+    }
+  },
+  "required": ["authors"]
+}

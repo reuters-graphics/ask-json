@@ -1,5 +1,5 @@
 const expect = require('expect.js');
-const promptSchema = require('..');
+const askJSON = require('../lib');
 
 describe('Test missing properties', function() {
   it('Should attach a missing object', async function() {
@@ -18,7 +18,7 @@ describe('Test missing properties', function() {
       },
       required: ['missingObject'],
     };
-    const data = await promptSchema(schema, {});
+    const data = await askJSON(schema, {});
     expect(data.missingObject).to.be.an('object');
     expect(data.missingObject.missingNestedObject).to.be.an('object');
   });
@@ -42,12 +42,12 @@ describe('Test missing properties', function() {
       },
       required: ['missingArray', 'object'],
     };
-    const data = await promptSchema(schema, {});
+    const data = await askJSON(schema, {});
     expect(data.missingArray).to.be.an('array');
     expect(data.object.missingNestedArray).to.be.an('array');
   });
 
-  it('Should prompt for a missing string', async function() {
+  it('Should ask for a missing string', async function() {
     const schema = {
       type: 'object',
       properties: {
@@ -67,16 +67,16 @@ describe('Test missing properties', function() {
       required: ['missingString', 'object'],
     };
 
-    const testValues = {
+    const injectAnswers = {
       missingString: 'asd',
       'object.missingNestedString': 'qwe',
     };
-    const data = await promptSchema(schema, {}, testValues);
+    const data = await askJSON(schema, {}, injectAnswers);
     expect(data.missingString).to.be('asd');
     expect(data.object.missingNestedString).to.be('qwe');
   });
 
-  it('Should prompt for a missing number', async function() {
+  it('Should ask for a missing number', async function() {
     const schema = {
       type: 'object',
       properties: {
@@ -96,16 +96,16 @@ describe('Test missing properties', function() {
       required: ['missingNumber', 'object'],
     };
 
-    const testValues = {
+    const injectAnswers = {
       missingNumber: 1,
       'object.missingNestedNumber': 2,
     };
-    const data = await promptSchema(schema, {}, testValues);
+    const data = await askJSON(schema, {}, injectAnswers);
     expect(data.missingNumber).to.be(1);
     expect(data.object.missingNestedNumber).to.be(2);
   });
 
-  it('Should prompt for a missing boolean', async function() {
+  it('Should ask for a missing boolean', async function() {
     const schema = {
       type: 'object',
       properties: {
@@ -125,11 +125,11 @@ describe('Test missing properties', function() {
       required: ['missingBool', 'object'],
     };
 
-    const testValues = {
+    const injectAnswers = {
       missingBool: true,
       'object.missingNestedBool': false,
     };
-    const data = await promptSchema(schema, {}, testValues);
+    const data = await askJSON(schema, {}, injectAnswers);
     expect(data.missingBool).to.be(true);
     expect(data.object.missingNestedBool).to.be(false);
   });

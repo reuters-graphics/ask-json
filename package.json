@@ -1,23 +1,25 @@
 {
-  "name": "json-schema-prompts",
+  "name": "ask-json",
+  "description": "Easy interactive prompts to create and validate data using JSON schema",
   "version": "0.0.1",
   "author": "Jon McClure <jon.r.mcclure@gmail.com>",
+  "homepage": "https://github.com/reuters-graphics/ask-json",
+  "repository": "github:reuters-graphics/ask-json",
   "license": "MIT",
   "private": false,
   "main": "lib/index.js",
   "bin": {
-    "promptjson": "cli.js"
+    "askjson": "cli/index.js"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "rm -f test/test.log && mocha"
   },
   "dependencies": {
     "ajv": "^6.10.2",
     "chalk": "^3.0.0",
     "lodash": "^4.17.15",
-    "object-path": "^0.11.4",
-    "ordinal": "^1.0.3",
-    "prompts": "^2.3.0"
+    "prompts": "^2.3.0",
+    "yargs": "^15.1.0"
   },
   "devDependencies": {
     "@hobbes7878/eslint-config": "^0.0.2",

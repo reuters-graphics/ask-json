@@ -1,8 +1,8 @@
 const expect = require('expect.js');
-const promptSchema = require('..');
+const askJSON = require('../lib');
 
 describe('Test invalid string', function() {
-  it('Should prompt for an invalid string', async function() {
+  it('Should ask for an invalid string', async function() {
     const schema = {
       type: 'object',
       properties: {
@@ -17,22 +17,31 @@ describe('Test invalid string', function() {
             },
           },
         },
+        arr: {
+          type: 'array',
+          items: {
+            type: 'string',
+          },
+        },
       },
     };
     const testData = {
       str: null,
       obj: { nestedStr: false },
+      arr: [null],
     };
-    const testValues = {
+    const injectAnswers = {
       str: 'asd',
       'obj.nestedStr': 'dsa',
+      'arr[0]': 'qwe',
     };
-    const data = await promptSchema(schema, testData, testValues);
+    const data = await askJSON(schema, testData, injectAnswers);
     expect(data.str).to.be('asd');
     expect(data.obj.nestedStr).to.be('dsa');
+    expect(data.arr[0]).to.be('qwe');
   });
 
-  it('Should prompt for an invalid string format', async function() {
+  it('Should ask for a string failing validation format', async function() {
     const schema = {
       type: 'object',
       properties: {
@@ -61,13 +70,13 @@ describe('Test invalid string', function() {
       uri: 'not a uri',
     };
     const datetime = new Date();
-    const testValues = {
+    const injectAnswers = {
       date: '2012-12-12',
       datetime: datetime.toISOString(),
       email: 'jon.r.mcclure@gmail.com',
       uri: 'http://google.com',
     };
-    const data = await promptSchema(schema, testData, testValues);
+    const data = await askJSON(schema, testData, injectAnswers);
     expect(data.date).to.be('2012-12-12');
     expect(data.datetime).to.be(datetime.toISOString());
     expect(data.email).to.be('jon.r.mcclure@gmail.com');

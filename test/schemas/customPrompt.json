@@ -1,0 +1,23 @@
+{
+  "type": "object",
+  "properties": {
+    "color": {
+      "type": "string",
+      "prompt": {
+        "type": "select",
+        "message": "What's your favorite color?",
+        "choices": [
+          {
+            "title": "Red",
+            "value": "#ff0000"
+          },
+          {
+            "title": "Blue",
+            "value": "#00ff00"
+          }
+        ]
+      }
+    }
+  },
+  "required": ["color"]
+}
