@@ -4,6 +4,9 @@
 
 Easy interactive prompts to create and validate data using [JSON schema](https://json-schema.org/).
 
+[![npm version](https://badge.fury.io/js/ask-json.svg)](https://badge.fury.io/js/ask-json) [![Reuters open source software](https://badgen.net/badge/Reuters/open%20source/?color=ff8000)](https://github.com/reuters-graphics/)
+
+
 ### Why this?
 
 We use JSON files to hold important configuration like the metadata for our published pages. But filling out those files is often tedious and prone to error.
@@ -168,5 +171,5 @@ const schema = {
 ### Testing
 
 ```
-$ yarn test
+$ yarn build && yarn test
 ```
