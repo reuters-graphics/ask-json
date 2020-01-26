@@ -1,5 +1,5 @@
 const expect = require('expect.js');
-const askJSON = require('../lib');
+const askJSON = require('../dist');
 
 describe('Test missing items in an array', function() {
   it('Should ask for missing objects in an array', async function() {

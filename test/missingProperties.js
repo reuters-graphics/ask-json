@@ -1,5 +1,5 @@
 const expect = require('expect.js');
-const askJSON = require('../lib');
+const askJSON = require('../dist');
 
 describe('Test missing properties', function() {
   it('Should attach a missing object', async function() {

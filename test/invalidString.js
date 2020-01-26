@@ -1,5 +1,5 @@
 const expect = require('expect.js');
-const askJSON = require('../lib');
+const askJSON = require('../dist');
 
 describe('Test invalid string', function() {
   it('Should ask for an invalid string', async function() {

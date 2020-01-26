@@ -1,7 +1,7 @@
-const path = require('path');
-const fs = require('fs');
+import fs from 'fs';
+import path from 'path';
 
-module.exports = (filePath) => {
+export default (filePath) => {
   const dirname = path.dirname(filePath);
   if (!fs.existsSync(filePath)) {
     fs.mkdirSync(dirname, { recursive: true });

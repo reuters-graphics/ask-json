@@ -1,5 +1,5 @@
 const expect = require('expect.js');
-const askJSON = require('../lib');
+const askJSON = require('../dist');
 
 describe('Test invalid boolean', function() {
   it('Should ask for an invalid boolean', async function() {

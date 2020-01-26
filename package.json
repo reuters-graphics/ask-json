@@ -5,13 +5,39 @@
   "author": "Jon McClure <jon.r.mcclure@gmail.com>",
   "homepage": "https://github.com/reuters-graphics/ask-json",
   "repository": "github:reuters-graphics/ask-json",
+  "bugs": {
+    "url": "https://github.com/reuters-graphics/ask-json/issues"
+  },
+  "keywords": [
+    "jsonschema",
+    "validation",
+    "validator",
+    "json",
+    "schema",
+    "cli",
+    "interface",
+    "ask",
+    "interactive",
+    "dev",
+    "development",
+    "tool",
+    "tooling"
+  ],
   "license": "MIT",
   "private": false,
-  "main": "lib/index.js",
-  "bin": {
-    "askjson": "cli/index.js"
+  "engines": {
+    "node": ">=8.0.0"
   },
+  "main": "dist/index.js",
+  "bin": {
+    "askjson": "dist/cli.js"
+  },
+  "files": [
+    "dist/*"
+  ],
   "scripts": {
+    "prepublishOnly": "npm run build",
+    "build": "rollup --config rollup.config.js",
     "test": "rm -f test/test.log && mocha"
   },
   "dependencies": {
@@ -19,12 +45,17 @@
     "chalk": "^3.0.0",
     "lodash": "^4.17.15",
     "prompts": "^2.3.0",
+    "update-notifier": "^4.0.0",
     "yargs": "^15.1.0"
   },
   "devDependencies": {
     "@hobbes7878/eslint-config": "^0.0.2",
+    "@rollup/plugin-json": "^4.0.1",
+    "@rollup/plugin-node-resolve": "^7.0.0",
     "eslint": "^6.8.0",
     "expect.js": "^0.3.1",
-    "mocha": "^6.2.2"
+    "mocha": "^6.2.2",
+    "rollup": "^1.29.1",
+    "rollup-plugin-node-externals": "^2.1.3"
   }
 }

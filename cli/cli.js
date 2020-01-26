@@ -1,12 +1,18 @@
-#!/usr/bin/env node
-const fs = require('fs');
-const path = require('path');
-const chalk = require('chalk');
-const ensureFile = require('./utils/ensureFile');
-const readJSON = require('./utils/readJSON');
-const writeJSON = require('./utils/writeJSON');
-const askJSON = require('../lib');
-const argv = require('yargs')
+import { name, version } from '../package.json';
+
+import argv from 'yargs';
+import askJSON from 'ask-json';
+import chalk from 'chalk';
+import ensureFile from './utils/ensureFile';
+import fs from 'fs';
+import path from 'path';
+import readJSON from './utils/readJSON';
+import updateNotifier from 'update-notifier';
+import writeJSON from './utils/writeJSON';
+
+updateNotifier({ pkg: { name, version } }).notify();
+
+argv // eslint-disable-line no-unused-expressions
   .command('$0 <schema>',
     'Ask users for data based on JSON schema', (yargs) => {
       yargs.positional('schema', {
