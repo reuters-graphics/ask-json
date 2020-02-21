@@ -104,11 +104,12 @@ Arrays in ask-json can **only contain items of one type.** For example, ask-json
   ```json
   {
     "type": "array",
-    "items": [{
-      "type": "number"
-    }, {
-      "type": "string"
-    }]
+    "items": {
+      "oneOf": [
+        { "type": "number"},
+        { "type": "string"}
+      ]
+    }
   }
   ```
 
@@ -149,8 +150,8 @@ const schema = {
     format: 'email',
     prompt: {
       message: (variablePath, invalidMessage = null) => {
-        if(!invalidMessage) return 'What\'s your email?'
-        return `What\'s your email? (${invalidMessage})`
+        if(!invalidMessage) return 'What\'s your email?';
+        return `What\'s your email? (${invalidMessage})`;
       }
     }
   }
