@@ -30,12 +30,12 @@ describe('Test invalid number', function() {
       obj: { nestedNum: 'not a num' },
       arr: [null],
     };
-    const injectAnswers = {
+    const injectedAnswers = {
       num: 1,
       'obj.nestedNum': 2,
       'arr[0]': 3,
     };
-    const data = await askJSON(schema, testData, injectAnswers);
+    const data = await askJSON(schema, testData, { injectedAnswers });
     expect(data.num).to.be(1);
     expect(data.obj.nestedNum).to.be(2);
     expect(data.arr[0]).to.be(3);
@@ -52,7 +52,7 @@ describe('Test invalid number', function() {
         max: {
           type: 'number',
           maximum: 5,
-          ask: {
+          prompt: {
             message: 'This should be a special number?',
           },
         },
@@ -72,13 +72,13 @@ describe('Test invalid number', function() {
       },
     };
     const testData = { min: 4, max: 6, multiple: 10, obj: { nestedMin: 2 } };
-    const injectAnswers = {
+    const injectedAnswers = {
       min: 6,
       max: 4,
       multiple: 9,
       'obj.nestedMin': 20,
     };
-    const data = await askJSON(schema, testData, injectAnswers);
+    const data = await askJSON(schema, testData, { injectedAnswers });
     expect(data.min).to.be(6);
     expect(data.max).to.be(4);
     expect(data.multiple).to.be(9);

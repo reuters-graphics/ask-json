@@ -30,12 +30,12 @@ describe('Test invalid string', function() {
       obj: { nestedStr: false },
       arr: [null],
     };
-    const injectAnswers = {
+    const injectedAnswers = {
       str: 'asd',
       'obj.nestedStr': 'dsa',
       'arr[0]': 'qwe',
     };
-    const data = await askJSON(schema, testData, injectAnswers);
+    const data = await askJSON(schema, testData, { injectedAnswers });
     expect(data.str).to.be('asd');
     expect(data.obj.nestedStr).to.be('dsa');
     expect(data.arr[0]).to.be('qwe');
@@ -70,13 +70,13 @@ describe('Test invalid string', function() {
       uri: 'not a uri',
     };
     const datetime = new Date();
-    const injectAnswers = {
+    const injectedAnswers = {
       date: '2012-12-12',
       datetime: datetime.toISOString(),
       email: 'jon.r.mcclure@gmail.com',
       uri: 'http://google.com',
     };
-    const data = await askJSON(schema, testData, injectAnswers);
+    const data = await askJSON(schema, testData, { injectedAnswers });
     expect(data.date).to.be('2012-12-12');
     expect(data.datetime).to.be(datetime.toISOString());
     expect(data.email).to.be('jon.r.mcclure@gmail.com');
