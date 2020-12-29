@@ -11,11 +11,11 @@ Easy interactive prompts to create and validate data using [JSON schema](https:/
 
 We use JSON files to hold important configuration like the metadata for our published pages. But filling out those files is often tedious and prone to error.
 
-Using [JSON schema](https://json-schema.org/) helps us ensure config files contain the correct information. ask-json gives us a way to make filling out and validating those files easy. It hooks into our publishing process and creates an interactive step to validate configuration before it's used.
+Using [JSON schema](https://json-schema.org/) helps us ensure config files contain the correct information. ask-json gives us a way to make filling out and validating those files easy. It hooks into our workflow and creates an interactive step to validate configuration before it's used.
 
 ### What's it do?
 
-ask-json lets you turn any JSON schema into an interactive CLI prompt. Just create a schema with some validation rules. ask-json will ask for any required information using friendly, data-type specific prompts using [prompts.js](https://www.npmjs.com/package/prompts).
+ask-json lets you turn any JSON schema into an interactive CLI prompt. Just create a schema with some validation rules. ask-json will ask for any required information using friendly, data-type specific prompts from [prompts.js](https://www.npmjs.com/package/prompts).
 
 It's best used to check an existing JSON file, correct invalid and missing information and write that data back to the file.
 
@@ -50,7 +50,13 @@ $ askjson jsonSchema.json
 Validate some data in a file. Answers to invalid or missing data will be rewritten to the file.
 
 ```
-$ askjson jsonSchema.json -f output.json
+$ askjson jsonSchema.json -f data.json
+```
+
+Write validated data to a new file.
+
+```
+$ askjson jsonSchema.json -f data.json -o output.json
 ```
 
 ##### Module
@@ -81,12 +87,12 @@ const jsonSchema = {
   required: ['title', 'author'],
 };
 
-const testData = {
+const rawData = {
   author: { name: 'Jon McClure' },
 };
 
 // Will ask user for title and author.email data!
-const data = await askJSON(jsonSchema, testData);
+const validData = await askJSON(jsonSchema, rawData);
 ```
 
 ### Supported validation
@@ -96,20 +102,18 @@ As of the current version, ask-json handles simple schema validation rules and n
 These are validation keywords currently handled by type:
 - `number` - maximum, minimum, exclusiveMaximum, exclusiveMinimum, multipleOf
 - `string` - maxLength, minLength, pattern, format
--  `array` - minItems, items
-- `object` - required
+- `array` - minItems, maxItems, items (object only!)
+- `object` - required, properties
 
 Arrays in ask-json can **only contain items of one type.** For example, ask-json does not support this schema:
 
   ```json
   {
     "type": "array",
-    "items": {
-      "oneOf": [
-        { "type": "number"},
-        { "type": "string"}
-      ]
-    }
+    "items": [
+      { "type": "number" },
+      { "type": "string" }
+    ]
   }
   ```
 
@@ -138,7 +142,7 @@ You can customize the questions used to ask users for missing or invalid data by
 
 There are some conditions: You won't have access to the `name` property on your questions. Also, all functions will **not** have access to any previous answers -- e.g., `(prev, values) => { ... }`.
 
-Lastly, the `message` property does not follow the usual signature in prompts.js. Instead, you can supply a static string or a function which receives two params: the object dot-path of the variable being set and a message from ajv if the current value is invalid.
+Lastly, the `message` property does not follow the usual signature in prompts.js. Instead, you can supply a string or a function which receives two params: the object dot-path of the variable being set and the validation error raised by ajv. If `message` is a string, you can use a [chalk tagged template literal](https://github.com/chalk/chalk#tagged-template-literal) to add a bit of color to your message.
 
 Here's an example of some custom prompts:
 
@@ -149,28 +153,73 @@ const schema = {
     type: 'string',
     format: 'email',
     prompt: {
-      message: (variablePath, invalidMessage = null) => {
-        if(!invalidMessage) return 'What\'s your email?';
-        return `What\'s your email? (${invalidMessage})`;
+      message: (variablePath, error) => {
+        if(error.message) return `Your email was invalid: ${error.message}. What's your email?`;
+        return `What's your email?`;
       }
     }
   }
   color: {
-    type: 'color',
+    type: 'string',
     prompt: {
       type: 'select',
+      message: 'What {red color} do you want?',
       choices: [
         { title: 'Red', value: '#ff0000' },
         { title: 'Green', value: '#00ff00' },
         { title: 'Blue', value: '#0000ff' },
       ],
-    }
-  }
-}
+    },
+  },
+};
+```
+
+### Asking to add additional items to an array
+
+Outside fixing invalid and missing data, you can also prompt users to optionally add additional items to an array. Just pass a config object with `askToAddItems` set `true`:
+
+```javascript
+const schema = {
+  type: 'object',
+  authors: {
+    type: 'array',
+    items: {
+      type: 'object',
+      properties: {
+        name: { type: 'string' },
+        email: { type: 'string', format: 'email' },
+      },
+      required: ['name', 'email'],
+    },
+    minItems: 1,
+    prompt: {
+      // Can also use a custom message in the prompt to add items!
+      addMessage: 'Would you like to add an additional {green author}?', 
+    },
+    maxItems: 5, // Won't prompt if array already has max items.
+  },
+  required: ['authors']
+};
+
+const rawData = {
+  authors: [
+    { name: 'Jon', email: 'jon@gmail.com' },
+  ]
+};
+
+const config = { askToAddItems: true };
+
+const validData = await askJSON(schema, rawData, config);
 ```
 
 ### Testing
 
 ```
 $ yarn build && yarn test
+```
+
+Some tests ask for manual input from the tester. You can skip these by running:
+
+```
+$ yarn build && yarn test-automatic-only
 ```

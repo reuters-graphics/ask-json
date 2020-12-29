@@ -30,12 +30,12 @@ describe('Test invalid boolean', function() {
       obj: { nestedBool: 'not a boolean' },
       arr: ['not a boolean'],
     };
-    const injectAnswers = {
+    const injectedAnswers = {
       bool: true,
       'obj.nestedBool': false,
       'arr[0]': true,
     };
-    const data = await askJSON(schema, testData, injectAnswers);
+    const data = await askJSON(schema, testData, { injectedAnswers });
     expect(data.bool).to.be(true);
     expect(data.obj.nestedBool).to.be(false);
     expect(data.arr[0]).to.be(true);

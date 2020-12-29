@@ -36,13 +36,13 @@ describe('Test missing items in an array', function() {
       },
     };
     const testData = { collection: [] };
-    const injectAnswers = {
+    const injectedAnswers = {
       'collection[0].name': 'Jon',
       'collection[0].contacts[0].email': 'jon.r.mcclure@gmail.com',
       'collection[1].name': 'Lisa',
       'collection[1].contacts[0].email': 'lisa@gmail.com',
     };
-    const data = await askJSON(schema, testData, injectAnswers);
+    const data = await askJSON(schema, testData, { injectedAnswers });
     expect(data.collection[0].name).to.be('Jon');
     expect(data.collection[1].contacts[0].email).to.be('lisa@gmail.com');
   });
@@ -65,11 +65,11 @@ describe('Test missing items in an array', function() {
       },
     };
     const testData = { collection: [] };
-    const injectAnswers = {
+    const injectedAnswers = {
       'collection[0][0]': 'Jon',
       'collection[0][1]': 'Lisa',
     };
-    const data = await askJSON(schema, testData, injectAnswers);
+    const data = await askJSON(schema, testData, { injectedAnswers });
     expect(data.collection[0][0]).to.be('Jon');
     expect(data.collection[0][1]).to.be('Lisa');
   });
@@ -89,11 +89,11 @@ describe('Test missing items in an array', function() {
       },
     };
     const testData = { collection: [] };
-    const injectAnswers = {
+    const injectedAnswers = {
       'collection[0]': 'j@gmail.com',
       'collection[1]': 'l@gmail.com',
     };
-    const data = await askJSON(schema, testData, injectAnswers);
+    const data = await askJSON(schema, testData, { injectedAnswers });
     expect(data.collection[0]).to.be('j@gmail.com');
     expect(data.collection[1]).to.be('l@gmail.com');
   });
@@ -112,11 +112,11 @@ describe('Test missing items in an array', function() {
       },
     };
     const testData = { collection: [] };
-    const injectAnswers = {
+    const injectedAnswers = {
       'collection[0]': 1,
       'collection[1]': 2,
     };
-    const data = await askJSON(schema, testData, injectAnswers);
+    const data = await askJSON(schema, testData, { injectedAnswers });
     expect(data.collection[0]).to.be(1);
     expect(data.collection[1]).to.be(2);
   });
@@ -135,10 +135,10 @@ describe('Test missing items in an array', function() {
       },
     };
     const testData = { collection: [] };
-    const injectAnswers = {
+    const injectedAnswers = {
       'collection[0]': true,
     };
-    const data = await askJSON(schema, testData, injectAnswers);
+    const data = await askJSON(schema, testData, { injectedAnswers });
     expect(data.collection[0]).to.be(true);
   });
 

@@ -67,11 +67,11 @@ describe('Test missing properties', function() {
       required: ['missingString', 'object'],
     };
 
-    const injectAnswers = {
+    const injectedAnswers = {
       missingString: 'asd',
       'object.missingNestedString': 'qwe',
     };
-    const data = await askJSON(schema, {}, injectAnswers);
+    const data = await askJSON(schema, {}, { injectedAnswers });
     expect(data.missingString).to.be('asd');
     expect(data.object.missingNestedString).to.be('qwe');
   });
@@ -96,11 +96,11 @@ describe('Test missing properties', function() {
       required: ['missingNumber', 'object'],
     };
 
-    const injectAnswers = {
+    const injectedAnswers = {
       missingNumber: 1,
       'object.missingNestedNumber': 2,
     };
-    const data = await askJSON(schema, {}, injectAnswers);
+    const data = await askJSON(schema, {}, { injectedAnswers });
     expect(data.missingNumber).to.be(1);
     expect(data.object.missingNestedNumber).to.be(2);
   });
@@ -125,11 +125,11 @@ describe('Test missing properties', function() {
       required: ['missingBool', 'object'],
     };
 
-    const injectAnswers = {
+    const injectedAnswers = {
       missingBool: true,
       'object.missingNestedBool': false,
     };
-    const data = await askJSON(schema, {}, injectAnswers);
+    const data = await askJSON(schema, {}, { injectedAnswers });
     expect(data.missingBool).to.be(true);
     expect(data.object.missingNestedBool).to.be(false);
   });

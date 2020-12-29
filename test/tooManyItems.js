@@ -44,11 +44,11 @@ describe('Test too many items', function() {
         }],
       },
     };
-    const injectAnswers = {
+    const injectedAnswers = {
       arr: true,
       'key.nestedComplexArr': true,
     };
-    const data = await askJSON(schema, testData, injectAnswers);
+    const data = await askJSON(schema, testData, { injectedAnswers });
     expect(data.arr).to.have.length(3);
     expect(data.arr).to.contain(2);
     expect(data.key.nestedComplexArr).to.have.length(2);
