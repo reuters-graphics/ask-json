@@ -1,6 +1,6 @@
+import argv, { boolean } from 'yargs';
 import { name, version } from '../package.json';
 
-import argv from 'yargs';
 import path from 'path';
 import run from './run';
 import updateNotifier from 'update-notifier';
@@ -28,8 +28,19 @@ argv // eslint-disable-line no-unused-expressions
             type: 'string',
             coerce: (filePath) => !filePath ? false : path.resolve(process.cwd(), filePath),
           },
+          add: {
+            alias: 'a',
+            describe: 'Ask to add items to arrays.',
+            type: boolean,
+            default: false,
+          },
+          retries: {
+            alias: 'r',
+            describe: 'Maximum number of times to retry the same validation error.',
+            type: 'number',
+            coerce: (num) => parseInt(num),
+          },
         })
-        .help()
         .version();
     }, run)
   .argv;

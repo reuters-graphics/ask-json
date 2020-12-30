@@ -14,12 +14,16 @@ export default async(args) => {
   const SCHEMA = readJSON(args.schema);
   let VALID_DATA;
 
+  const config = {};
+  if (args.retries) config.maxRetries = args.retries;
+  if (args.add) config.askToAddItems = args.add;
+
   if (!args.file) {
-    VALID_DATA = await askJSON(SCHEMA, {});
+    VALID_DATA = await askJSON(SCHEMA, {}, config);
   } else {
     ensureFile(args.file);
     const RAW_DATA = readJSON(args.RAW_DATA);
-    VALID_DATA = await askJSON(SCHEMA, RAW_DATA);
+    VALID_DATA = await askJSON(SCHEMA, RAW_DATA, config);
   }
   if (args.output) {
     ensureFile(args.output);
