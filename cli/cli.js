@@ -36,34 +36,34 @@ argv // eslint-disable-line no-unused-expressions
         })
         .help()
         .version();
+    }, async function(args) {
+      await runCLI(args);
     })
   .argv;
 
-if (!fs.existsSync(argv.schema)) {
-  console.error(`\n⛔ Unable to read JSON schema file: ${chalk.green(argv.schema)}\n`);
-  process.exit(1);
-}
+const runCLI = async(args) => {
+  if (!fs.existsSync(args.schema)) {
+    console.error(`\n⛔ Unable to read JSON schema file: ${chalk.green(args.schema)}\n`);
+    process.exit(1);
+  }
 
-const SCHEMA = readJSON(argv.schema);
-let VALID_DATA;
+  const SCHEMA = readJSON(args.schema);
+  let VALID_DATA;
 
-const run = async() => {
-  if (!argv.file) {
+  if (!args.file) {
     VALID_DATA = await askJSON(SCHEMA, {});
   } else {
-    ensureFile(argv.file);
-    const RAW_DATA = readJSON(argv.RAW_DATA);
+    ensureFile(args.file);
+    const RAW_DATA = readJSON(args.RAW_DATA);
     VALID_DATA = await askJSON(SCHEMA, RAW_DATA);
   }
-  if (argv.output) {
-    ensureFile(argv.output);
-    writeJSON(argv.output, VALID_DATA);
-  } else if (argv.file) {
-    writeJSON(argv.file, VALID_DATA);
+  if (args.output) {
+    ensureFile(args.output);
+    writeJSON(args.output, VALID_DATA);
+  } else if (args.file) {
+    writeJSON(args.file, VALID_DATA);
   } else {
     process.stdout.write(JSON.stringify(VALID_DATA, null, 2));
     process.exit(0);
   }
 };
-
-run();
