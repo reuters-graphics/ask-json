@@ -1,13 +1,13 @@
-import argv, { boolean } from 'yargs';
 import { name, version } from '../package.json';
 
 import path from 'path';
 import run from './run';
 import updateNotifier from 'update-notifier';
+import yargs from 'yargs';
 
 updateNotifier({ pkg: { name, version } }).notify();
 
-argv // eslint-disable-line no-unused-expressions
+yargs // eslint-disable-line no-unused-expressions
   .command('$0 <schema>',
     'Ask users for data based on JSON schema', (yargs) => {
       yargs.positional('schema', {
@@ -31,7 +31,7 @@ argv // eslint-disable-line no-unused-expressions
           add: {
             alias: 'a',
             describe: 'Ask to add items to arrays.',
-            type: boolean,
+            type: 'boolean',
             default: false,
           },
           retries: {

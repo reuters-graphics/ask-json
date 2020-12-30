@@ -22,7 +22,7 @@ export default async(args) => {
     VALID_DATA = await askJSON(SCHEMA, {}, config);
   } else {
     ensureFile(args.file);
-    const RAW_DATA = readJSON(args.RAW_DATA);
+    const RAW_DATA = readJSON(args.file);
     VALID_DATA = await askJSON(SCHEMA, RAW_DATA, config);
   }
   if (args.output) {
