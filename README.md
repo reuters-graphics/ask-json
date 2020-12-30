@@ -1,6 +1,6 @@
 ![](badge.svg)
 
-# ask-json
+# AskJSON
 
 Easy interactive prompts to create and validate data using [JSON schema](https://json-schema.org/).
 
