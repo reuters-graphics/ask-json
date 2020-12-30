@@ -6,6 +6,7 @@ Easy interactive prompts to create and validate data using [JSON schema](https:/
 
 [![npm version](https://badge.fury.io/js/ask-json.svg)](https://badge.fury.io/js/ask-json) [![Reuters open source software](https://badgen.net/badge/Reuters/open%20source/?color=ff8000)](https://github.com/reuters-graphics/)
 
+![](./media/demo.gif)
 
 ### Why this?
 
