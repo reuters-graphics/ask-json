@@ -38,8 +38,8 @@
   "scripts": {
     "prepublishOnly": "npm run build && npm run test-automatic-only",
     "build": "rollup --config rollup.config.js",
-    "test-automatic-only": "mocha",
-    "test": "mocha --recursive"
+    "test-automatic-only": "TEST=true mocha",
+    "test": "TEST=true mocha --recursive"
   },
   "dependencies": {
     "ajv": "^6.10.2",

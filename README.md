@@ -142,7 +142,7 @@ You can customize the questions used to ask users for missing or invalid data by
 
 There are some conditions: You won't have access to the `name` property on your questions. Also, all functions will **not** have access to any previous answers -- e.g., `(prev, values) => { ... }`.
 
-Lastly, the `message` property does not follow the usual signature in prompts.js. Instead, you can supply a string or a function which receives two params: the object dot-path of the variable being set and the validation error raised by ajv. If `message` is a string, you can use a [chalk tagged template literal](https://github.com/chalk/chalk#tagged-template-literal) to add a bit of color to your message.
+Lastly, the `message` property does not follow the usual signature in prompts.js. Instead, you can supply a string or a function which receives three params: the object dot-path of the variable being set, the validation error raised by ajv and the current value of the variable. If `message` is a string, you can use a [chalk tagged template literal](https://github.com/chalk/chalk#tagged-template-literal) to add a bit of color to your message.
 
 Here's an example of some custom prompts:
 
@@ -153,8 +153,8 @@ const schema = {
     type: 'string',
     format: 'email',
     prompt: {
-      message: (variablePath, error) => {
-        if(error.message) return `Your email was invalid: ${error.message}. What's your email?`;
+      message: (variablePath, error, currentValue) => {
+        if(error.message) return `Your email "${currentValue}" is invalid: ${error.message}. What's your email?`;
         return `What's your email?`;
       }
     }
