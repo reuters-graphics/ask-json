@@ -1,7 +1,7 @@
 {
   "name": "ask-json",
   "description": "Easy interactive prompts to create and validate data using JSON schema",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": "Jon McClure <jon.r.mcclure@gmail.com>",
   "homepage": "https://github.com/reuters-graphics/ask-json",
   "repository": "github:reuters-graphics/ask-json",
