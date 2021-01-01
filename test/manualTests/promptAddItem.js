@@ -33,6 +33,9 @@ describe('Test prompting for new item', function() {
             minItems: 1,
           },
           maxItems: 3,
+          prompt: {
+            addMessage: (dataPath, currentValue) => `Custom message to add to ${dataPath}. Current value: ${JSON.stringify(currentValue)}.`,
+          },
         },
         arrAlreadyAtMax: {
           type: 'array',
